@@ -5,9 +5,13 @@ import fi from './fi.json' assert { type: "json" };
 
 const app = express();
 app.use(cacheHeaders());
+app.use(express.static('public'));
 const PORT = 8000;
 app.use(express.json());
 
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/index.html');
+});
 
 const regex = /[åäö]/i;
 const citiesData = fi.map(city => city.city).sort().filter(str => !regex.test(str))

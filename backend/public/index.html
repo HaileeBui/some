@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backend API</title>
+</head>
+
+<body>
+    <h1>Backend API</h1>
+
+    <div id="original-endpoint"></div>
+    <div id="parameterized-endpoint"></div>
+    <div id="searched-endpoint"></div>
+    <div id="data-container"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function () {
+            try {
+                const originalEndpoint = '/cities';
+                document.getElementById('original-endpoint').innerText = `Endpoint: ${originalEndpoint}`;
+
+                const startIndex = 10;
+                const parameterizedEndpoint = `/cities?start_index=${startIndex}`;
+                document.getElementById('parameterized-endpoint').innerText = `Endpoint: ${parameterizedEndpoint}`;
+
+                const searchedEndpoint = `/cities?search_key=helsi`;
+                document.getElementById('searched-endpoint').innerText = `Endpoint: ${searchedEndpoint}`;
+
+                const originalResponse = await fetch(originalEndpoint);
+                const originalData = await originalResponse.json();
+
+                const parameterizedResponse = await fetch(parameterizedEndpoint);
+                const parameterizedData = await parameterizedResponse.json();
+
+                const searchedResponse = await fetch(searchedEndpoint);
+                const searchedData = await searchedResponse.json();
+
+                const dataContainer = document.getElementById('data-container');
+
+                dataContainer.innerHTML += `<h2>Data:</h2>`;
+                if (originalData.data && Array.isArray(originalData.data)) {
+                    dataContainer.innerHTML += `<p>${originalData.data.join(', ')}</p>`;
+                } else {
+                    dataContainer.innerHTML += `<p>Error: Invalid response format</p>`;
+                }
+
+                dataContainer.innerHTML += `<h2>Data:</h2>`;
+                if (parameterizedData.data && Array.isArray(parameterizedData.data)) {
+                    dataContainer.innerHTML += `<p>${parameterizedData.data.join(', ')}</p>`;
+                } else {
+                    dataContainer.innerHTML += `<p>Error: Invalid response format</p>`;
+                }
+
+                dataContainer.innerHTML += `<h2>Data:</h2>`;
+                if (searchedData.data && Array.isArray(searchedData.data)) {
+                    dataContainer.innerHTML += `<p>${searchedData.data.join(', ')}</p>`;
+                } else {
+                    dataContainer.innerHTML += `<p>Error: Invalid response format</p>`;
+                }
+            } catch (error) {
+                console.error('Error fetching data from the backend:', error);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,10 +1,13 @@
 import express from 'express';
+import cors from 'cors';
 import cacheHeaders from 'express-cache-headers';
 import axios from 'axios';
-import fi from './fi.json' assert { type: "json" };
+import fi from './fi.json' assert { type: "json" }; 
 
 const app = express();
+app.use(cors());
 app.use(cacheHeaders());
+
 app.use(express.static('public'));
 const PORT = 8000;
 app.use(express.json());
